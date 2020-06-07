@@ -15,3 +15,7 @@ ENDIF()
 
 add_executable(deflate deflate.c)
 target_link_libraries(deflate z)
+
+INSTALL(TARGETS deflate
+        RUNTIME DESTINATION bin
+)
