@@ -299,7 +299,7 @@ int main(int argc, char **argv) {
             0,     //input_files_count
             false,     //decompress
             false,     //keep
-            NULL,     //*suffix ".deflate" 
+            NULL,     //*suffix ".deflate"
             Z_BEST_COMPRESSION,     //compression_level
             8,     //mem_level
             false     //ended
@@ -409,7 +409,10 @@ int main(int argc, char **argv) {
     bool out_file_name_is_stdout = global_args.out_file_name ? !strcmp("-", global_args.out_file_name) : false;
     bool no_input_file_name_to_derive_output = !input_file_name && !global_args.out_file_name;
     if (global_args.verbosity >= 2) {
-        fprintf(stderr, "is_piped %d\nout_file_name_is_stdout %d\nno_input_file_name_to_derive_output %d\n", is_piped, out_file_name_is_stdout, no_input_file_name_to_derive_output);
+        fprintf(stderr, "is_piped %d\n"
+                        "out_file_name_is_stdout %d\n"
+                        "no_input_file_name_to_derive_output %d\n",
+                is_piped, out_file_name_is_stdout, no_input_file_name_to_derive_output);
     }
     if (is_piped || out_file_name_is_stdout || no_input_file_name_to_derive_output) {
         out_file = stdout;
@@ -427,7 +430,7 @@ int main(int argc, char **argv) {
         }
         if (!global_args.force && access(out_file_name, F_OK) != -1) {
             if (global_args.verbosity >= 1) {
-                fprintf(stderr, "File %s already exists. Use --force to overwrite it\n", out_file_name);
+                fprintf(stderr, "File already exists. Use -f (--force) to overwrite it: %s\n", out_file_name);
             }
             return 1;
         }
