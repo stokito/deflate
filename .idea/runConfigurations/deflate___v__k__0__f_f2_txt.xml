@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="deflate  -v -k -0 -f f2.txt" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -k -0 -f f2.txt" REDIRECT_INPUT="false" WORKING_DIR="file://$ProjectFileDir$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="zlib-deflate" TARGET_NAME="deflate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="zlib-deflate" RUN_TARGET_NAME="deflate">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
