@@ -19,7 +19,7 @@
 #define CHUNK 16384
 
 /**
- * 15 bit window but is negative so will then generate raw deflate data with no zlib header or trailer, and will not compute a check value
+ * 15 bit window i.e. 32768 bytes but is negative so will then generate raw deflate data with no zlib header or trailer, and will not compute a check value
  */
 static const int WINDOW_BITS_RAW_DEFLATE = -15;
 
@@ -55,8 +55,7 @@ int def(FILE *source, FILE *dest, int level, int mem_level, bool ended) {
         src_eof = feof(source);
         int flush;
         if (src_eof) {
-//            flush = ended ? Z_FINISH : Z_SYNC_FLUSH;
-            flush = Z_FINISH;
+            flush = ended ? Z_FINISH : Z_SYNC_FLUSH;
         } else {
             flush = Z_NO_FLUSH;
         }
