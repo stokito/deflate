@@ -1,3 +1,5 @@
+// Based on https://github.com/madler/zlib/blob/master/examples/zpipe.c
+
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -16,6 +18,11 @@
 
 #define CHUNK 16384
 
+/**
+ * 15 bit window but is negative so will then generate raw deflate data with no zlib header or trailer, and will not compute a check value
+ */
+static const int WINDOW_BITS_RAW_DEFLATE = -15;
+
 /* Compress from file source to file dest until EOF on source.
    def() returns Z_OK on success, Z_MEM_ERROR if memory could not be
    allocated for processing, Z_STREAM_ERROR if an invalid compression
@@ -33,16 +40,25 @@ int def(FILE *source, FILE *dest, int level, int mem_level, bool ended) {
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
     strm.opaque = Z_NULL;
-    ret = deflateInit2(&strm, level, Z_DEFLATED, -15, mem_level, Z_DEFAULT_STRATEGY);
+    ret = deflateInit2(&strm, level, Z_DEFLATED, WINDOW_BITS_RAW_DEFLATE, mem_level, Z_DEFAULT_STRATEGY);
     if (ret != Z_OK)
         return ret;
 
+    bool src_eof;
     /* compress until end of file */
     do {
         strm.avail_in = fread(in, 1, CHUNK, source);
         if (ferror(source)) {
             (void) deflateEnd(&strm);
             return Z_ERRNO;
+        }
+        src_eof = feof(source);
+        int flush;
+        if (src_eof) {
+//            flush = ended ? Z_FINISH : Z_SYNC_FLUSH;
+            flush = Z_FINISH;
+        } else {
+            flush = Z_NO_FLUSH;
         }
         strm.next_in = in;
 
@@ -51,7 +67,6 @@ int def(FILE *source, FILE *dest, int level, int mem_level, bool ended) {
         do {
             strm.avail_out = CHUNK;
             strm.next_out = out;
-            int flush = ended ? Z_FINISH : Z_SYNC_FLUSH;
             ret = deflate(&strm, flush);    /* no bad return value */
             assert(ret != Z_STREAM_ERROR);  /* state not clobbered */
             have = CHUNK - strm.avail_out;
@@ -63,15 +78,11 @@ int def(FILE *source, FILE *dest, int level, int mem_level, bool ended) {
         assert(strm.avail_in == 0);     /* all input will be used */
 
         /* done when last data in file processed */
-
-        if (feof(source)) {
-            break;
-        }
-    } while (1);
+    } while (!src_eof);
 
     /* clean up and return */
     (void) deflateEnd(&strm);
-    return Z_OK;
+    return ret;
 }
 
 
@@ -98,51 +109,6 @@ void zerr(int ret) {
             fputs("zlib version mismatch!\n", stderr);
     }
 }
-
-/*
- * -0 to -9        Compression level
- * --fast, --best       Compression levels 1 and 9 respectively
- * -b, --blocksize mmm  Set compression block size to mmmK (default 128K)
--c, --stdout         Write all processed output to stdout (won't delete)
-  -c     : force write to standard output, even if it is the console
--d, --decompress     Decompress the compressed input (default for .lz4 extension)
- x
- -k, --keep           Do not delete original file after processing
-  -m     : multiple input files (implies automatic output filenames)
--r     : operate recursively on directories (sets also -m)
- -S, --suffix .sss    Use suffix .sss instead of .gz (for compression)
- -V  --version        Show the version of pigz
- --                   All arguments after "--" are treated as files
-
- -o FILE, --output=FILE      output file (only if 1 input file)
-With no FILE, or when FILE is -, read standard input.
-
- -z --compress       force compression
- -s --small          use less memory (at most 2500k)
- -E --empty
- -F --finish (busy -F  --first          Do iterations first, before block split for -11)
-
- -C checksum or chunk
- -X (extensiblae)
-
- yu
-
- -A appendable
- -L last
-
- checksum(s) for each stream
- output to gz (G is busy)
-
-
-
- deflate header.txt.deflate -0 entry1.txt entry.txt footer.deflate
-	 error: should we compress?
- deflate -z header.txt.deflate -0 entry1.txt entry.txt footer.deflate
-	 last stream is opened
- deflate -z -F header.txt.deflate -0 entry1.txt entry.txt footer.deflate
-	 last stream is finished
- deflate -z -F header.txt.deflate -0 entry1.txt entry.txt -0  footer.deflate
- */
 
 #define SHORT_OPTS "zdkcS:o:f0123456789sAEqvhV"
 #define DEFLATE_VERSION "0.1.0"
