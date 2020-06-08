@@ -65,6 +65,35 @@ second
 
 Modern browsers doesn't require the last stream to be finished so you can omit the `-E` option. 
 
+### Debug
+You can compress a file without actual compression i.e. with level 0. This will create a `data` stream.
+ 
+```
+deflate -v -k -0 f1.txt
+deflate -v -k -0 -E -o f2.txt.deflate -f f2.txt
+deflate -v -k -d -f f1.txt.deflate -o f1.decomressed.txt
+```
+
+Such data streams may be also useful to create some uncompressed place in gzip archive which can be easily altered.
+For example you can add a license key into archive with program or change dynamically one part of the compressed html file.  
+
+You can use https://github.com/madler/infgen to debug the resulted deflate file:
+```
+$ infgen f1.txt.deflate
+! infgen 2.4 output
+!
+stored
+data 'first
+end
+!
+stored
+end
+!
+infgen warning: incomplete deflate data
+```
+
+Note that in fact there is two blocks but the last one is empty and used for padding. 
+The warning `incomplete deflate data` means that this stream is appendable and not finished.
 
 ## Build
 
@@ -92,6 +121,13 @@ You can recompile the sources:
 ```
 
 the resulted IPK is in `~/workspace/openwrt/bin/packages/mips_24kc/base/` and it's just is regular `tar.gz` file.
+
+Upload to router and install:
+```
+scp ~/workspace/openwrt/bin/packages/mips_24kc/base/deflate_0.2.0-1_mips_24kc.ipk 192.168.1.1:/tmp/
+ssh 192.168.1.1
+root@OpenWrt# opkg install /tmp/deflate_0.2.0-1_mips_24kc.ipk 
+```
 
 * https://electrosome.com/cross-compile-openwrt-c-program/
 * https://openwrt.org/docs/guide-developer/crosscompile
