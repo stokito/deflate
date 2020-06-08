@@ -13,6 +13,11 @@ IF(HELP_DESCRIPTION)
     ADD_DEFINITIONS(-DHELP_DESCRIPTION)
 ENDIF()
 
+OPTION(DECOMPRESS "Add decompression -d" ON)
+IF(DECOMPRESS)
+    ADD_DEFINITIONS(-DDECOMPRESS)
+ENDIF()
+
 add_executable(deflate deflate.c)
 target_link_libraries(deflate z)
 
