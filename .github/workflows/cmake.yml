@@ -29,12 +29,13 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - uses: 'marvinpinto/action-automatic-releases@latest'
+      id: 'automatic_releases'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
         prerelease: false
+        replacesArtifacts: true
         files: |
           ${{github.workspace}}/build/deflate
-      id: 'automatic_releases'
 
 #  - name: Upload a Build Artifact
 #       uses: actions/upload-artifact@v3.1.2
