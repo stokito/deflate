@@ -103,6 +103,17 @@ From Ubuntu PPA:
     sudo apt update
     sudo apt install deflate
 
+Debian package download and install:
+
+    wget -O /tmp/deflate.deb https://github.com/stokito/deflate/releases/download/v0.3.0/deflate.deb
+    sudo dpkg -i /tmp/deflate.deb
+
+Manual download:
+
+    wget -O /tmp/deflate https://github.com/stokito/deflate/releases/download/v0.3.0/deflate
+    sudo mv /tmp/deflate /usr/bin/
+    sudo chmod +x /usr/bin/deflate
+
 ## Build
 
 ```
