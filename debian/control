@@ -5,8 +5,8 @@ Maintainer: Sergey Ponomarev <stokito@gmail.com>
 Homepage: https://github.com/stokito/deflate
 Vcs-Browser: https://github.com/stokito/deflate
 Vcs-Git: https://github.com/stokito/deflate.git
-Build-Depends: debhelper (>= 13), cmake, pkg-config, zlib1g-dev
-Standards-Version: 4.1.4
+Build-Depends: debhelper (>=10), cmake, pkg-config, zlib1g-dev
+Standards-Version: 4.5.0
 Rules-Requires-Root: no
 
 Package: deflate
