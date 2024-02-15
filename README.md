@@ -95,6 +95,14 @@ infgen warning: incomplete deflate data
 Note that in fact there is two blocks but the last one is empty and used for padding. 
 The warning `incomplete deflate data` means that this stream is appendable and not finished.
 
+## Install
+
+From Ubuntu PPA:
+
+    sudo add-apt-repository ppa:stokito/utils
+    sudo apt update
+    sudo apt install deflate
+
 ## Build
 
 ```
