@@ -26,7 +26,7 @@ define Package/deflate
 endef
 
 define Package/deflate/description
-  The deflate is a low level gzip utility to create a deflate streams i.e. gzip without checksum.
+  A low level gzip utility to create a deflate streams.
 endef
 
 

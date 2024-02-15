@@ -1,0 +1,5 @@
+deflate (0.2.0) stable; urgency=medium
+
+  * debian package
+
+ -- Sergey Ponomarev <stokito@gmail.com>  Thu, 15 Feb 2024 05:00:00 +0200

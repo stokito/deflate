@@ -1,1 +1,9 @@
 cmake-build-debug
+cmake-build-default
+cmake-build-release
+cmake-build-relwithdebinfo
+/debian/deflate/
+/debian/debhelper-build-stamp
+/debian/.debhelper/generated/
+/debian/files
+/debian/deflate.substvars

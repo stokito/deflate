@@ -1,0 +1,16 @@
+Source: deflate
+Section: universe/utils
+Priority: extra
+Maintainer: Sergey Ponomarev <stokito@gmail.com>
+Homepage: https://github.com/stokito/deflate
+Vcs-Browser: https://github.com/stokito/deflate
+Vcs-Git: https://github.com/stokito/deflate.git
+Build-Depends: debhelper (>= 13), cmake, pkg-config, zlib1g-dev
+Standards-Version: 4.1.4
+Rules-Requires-Root: no
+
+Package: deflate
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: deflate stream utility.
+ A low level gzip utility to create a deflate streams.
