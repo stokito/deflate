@@ -12,7 +12,7 @@ PKG_HASH:=f63e3ddc91f753bb545957c776e1f157aa928be22cf1f24858812fc6ba7aed05
 PKG_INSTALL:=1
 
 PKG_MAINTAINER:=Sergey Ponomarev <stokito@gmail.com>
-PKG_LICENSE:=Apache-2.0
+PKG_LICENSE:=0BSD
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
