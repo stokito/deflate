@@ -77,7 +77,7 @@ deflate -v -k -d -f f1.txt.deflate -o f1.decomressed.txt
 Such data streams may be also useful to create some uncompressed place in gzip archive which can be easily altered.
 For example you can add a license key into archive with program or change dynamically one part of the compressed html file.  
 
-You can use https://github.com/madler/infgen to debug the resulted deflate file:
+You can use [infgen](https://github.com/madler/infgen) to debug the resulted deflate file:
 ```
 $ infgen f1.txt.deflate
 ! infgen 2.4 output
@@ -95,6 +95,8 @@ infgen warning: incomplete deflate data
 Note that in fact there is two blocks but the last one is empty and used for padding. 
 The warning `incomplete deflate data` means that this stream is appendable and not finished.
 
+See bellow how to install the `infgen` from PPA.
+
 ## Install
 
 From Ubuntu PPA:
@@ -102,6 +104,8 @@ From Ubuntu PPA:
     sudo add-apt-repository ppa:stokito/utils
     sudo apt update
     sudo apt install deflate
+    # additionally you may want to use the infgen zlib disassembler
+    sudo apt install infgen
 
 Debian package download and install:
 
