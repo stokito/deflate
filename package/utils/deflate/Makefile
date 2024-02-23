@@ -32,7 +32,6 @@ endef
 
 define Package/deflate/install
 	$(INSTALL_DIR) $(1)/usr/bin
-#	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/deflate $(1)/usr/bin/deflate
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/deflate $(1)/usr/bin/
 endef
 

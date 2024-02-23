@@ -3,18 +3,18 @@
 The `deflate` is a low level gzip utility to create a DEFLATE streams i.e. gzip file without checksum.
 A gzip file consists of such DEFLATE streams/blocks and their SRC32 checksums to detect corrupted data.
 Nowadays almost all data is transmitted online and data integrity is guarantied on a channel level (e.g. TLS/HTTPS).
-So such deflate files are simpler and smaller than regular gzip files and compressed slightly faster because we skip the checksums calculation.
+So such deflate files are simpler and smaller than regular gzip files and compressed slightly faster because we skip the checksum calculation.
 This is not a big optimization and for a better interoperability use gzip but on a large scale this may matter (battery life, cloud hoisting usage cost, less file sizes).
 
 If you are just want better compression see also:
 * pigz which is "gzip v2" and have higher compressions levels
 * lz4 for a best compression speed
 * brotli for web assets (js, svg, html)
-* zstd for regular files with best compression/decompression ratio
-* xz for the the best compression but much slower decompression
+* zstd for regular files with the best compression/decompression ratio
+* xz for the best compression but much slower decompression
 
 You can extract such DEFLATE stream from a gzip yourself by cutting header from begin and checksum from trailer: 
-```
+```sh
 echo "hello" | pigz -i > hello.txt.gz
 cat hello.txt.gz | tail --bytes=+11 | head --bytes=-8 > hello.txt.deflate
 ```
@@ -68,7 +68,7 @@ Modern browsers doesn't require the last stream to be finished so you can omit t
 ### Debug
 You can compress a file without actual compression i.e. with level 0. This will create a `data` stream.
  
-```
+```sh
 deflate -v -k -0 f1.txt
 deflate -v -k -0 -E -o f2.txt.deflate -f f2.txt
 deflate -v -k -d -f f1.txt.deflate -o f1.decomressed.txt
@@ -97,7 +97,7 @@ The warning `incomplete deflate data` means that this stream is appendable and n
 
 ## Build
 
-```
+```sh
 cmake ./
 make
 make install
@@ -108,7 +108,7 @@ Copy the `Makefile` from `package` to `~/workspace/openwrt/package/utils/deflate
 
 Then select `Utilities -> deflate` in SDK:
  
-```
+```sh
 make menuconfig
 make
 ```
