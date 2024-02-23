@@ -107,6 +107,7 @@ int inf(FILE *source, FILE *dest)
     strm.next_in = Z_NULL;
 //    ret = inflateInit(&strm);
     ret = inflateInit2(&strm, WINDOW_BITS_RAW_DEFLATE);
+//    ret = inflateInit2(&strm, 15 + 32); // auto-detect zlib or gzip
     if (ret != Z_OK)
         return ret;
 
